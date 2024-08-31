@@ -1,0 +1,15 @@
+/* Contact List */
+.contactList {
+   list-style-type: none;
+   padding: 0;
+   margin: 0;
+}
+.contactListItem {
+   padding: 10px;
+   border: 1px solid #ddd;
+   border-radius: 4px;
+   margin-bottom: 10px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}

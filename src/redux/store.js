@@ -1,15 +1,42 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { contactReducer } from "./contactsSlice";
 import { filterReducer } from "./filtersSlice";
+import storage from "redux-persist/lib/storage";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist'
 
-const rootReducer = {
-  contacts: contactReducer,
-  filter: filterReducer,
+
+const persistConfig = {
+  key: 'contacts',
+  storage,
 }
 
+const persistedContactReducer = persistReducer(persistConfig, contactReducer);
+
+const rootReducer = combineReducers({
+  contacts: persistedContactReducer,  
+  filter: filterReducer,  
+});
+
 export const store = configureStore({
-  reducer:rootReducer,
-})
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+
+export const persistor = persistStore(store);
 
 // Redux
 // 1. (один раз на весь проект) Розгорнути стор
