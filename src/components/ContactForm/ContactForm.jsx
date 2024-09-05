@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
-import { addContact } from "../../redux/contactsSlice";
 import toast, { Toaster } from "react-hot-toast";
 import styles from './ContactForm.module.css'
+import { addContact } from "../../redux/contactsOps";
 export default function ContactForm () {
    const dispatch = useDispatch()
    const createContactHandler = (e)=>{
@@ -11,7 +11,7 @@ export default function ContactForm () {
          toast.error("Field can't be empty")
          return
       }
-      dispatch(addContact({name: form.name.value,  phone: form.phone.value}));
+      dispatch(addContact({name: form.name.value,  number: form.phone.value}));
       form.reset()
    }
    return  <form className={styles.contactForm} name='contact' onSubmit={createContactHandler}>
